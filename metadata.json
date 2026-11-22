@@ -1,0 +1,6 @@
+{
+  "name": "How Large Language Models Store and Edit Facts",
+  "description": "An interactive explainer on transformer weight editing, rank-one updates (ROME), MEMIT, and model merging on Qwen architecture.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

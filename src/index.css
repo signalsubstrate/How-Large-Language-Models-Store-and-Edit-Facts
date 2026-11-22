@@ -1,0 +1,405 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+/* Explainer Style and Web Architecture Blueprint Starter CSS */
+:root {
+  color-scheme: light;
+  --fg: #1a1a1a;
+  --mut: #6b6b6b;
+  --line: #e8e8e8;
+  --bg: #ffffff;
+  --panel: #fafafa;
+  --a: #64748b; /* Silver City / Baseline (Slate Silver) */
+  --b: #0284c7; /* Azure City / Target (Vibrant Azure Sky Blue) */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.6 system-ui, -apple-system, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px 20px 96px;
+}
+
+h1 {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin: 0 0 8px;
+  color: var(--fg);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin: 56px 0 8px;
+  color: var(--fg);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+p {
+  color: #333333;
+  margin: 0 0 16px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.lead {
+  color: var(--mut);
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+a {
+  color: var(--a);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.fig {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+/* Side-by-side layout for Figure 1 to allow simultaneous table and control interaction */
+.fig-matrix-grid,
+.fig-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.fig-matrix-grid > .matrix-pane,
+.fig-split > .visual-pane {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  padding: 14px 12px;
+  overflow-x: auto;
+  border-right: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.fig-matrix-grid > .ctl-pane,
+.fig-split > .ctl-pane {
+  grid-column: 2;
+  grid-row: 1;
+  border-top: none;
+  border-bottom: 1px solid var(--line);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bg);
+}
+
+.fig-matrix-grid > .stats-pane,
+.fig-split > .stats-pane {
+  grid-column: 2;
+  grid-row: 2;
+  border-top: none;
+  border-bottom: 1px solid var(--line);
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  background: var(--panel);
+}
+
+.fig-matrix-grid > .preview-pane,
+.fig-split > .preview-pane {
+  grid-column: 2;
+  grid-row: 3;
+  padding: 12px 14px;
+  background: var(--bg);
+}
+
+/* Specific layout when controls are moved underneath the visual diagram (e.g. Figure 2) */
+.fig-split.fig-controls-in-visual > .visual-pane {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+.fig-split.fig-controls-in-visual > .stats-pane {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.fig-split.fig-controls-in-visual > .preview-pane {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* Figure 5 & 7: 2-column side-by-side split underneath merged top visualization */
+.fig-memit-cols,
+.fig-split-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  background: var(--bg);
+}
+
+.fig-memit-cols > .memit-ctl-col,
+.fig-split-cols > .split-ctl-col {
+  padding: 16px;
+  border-right: 1px solid var(--line);
+}
+
+.fig-memit-cols > .memit-preview-col,
+.fig-split-cols > .split-preview-col {
+  padding: 16px;
+}
+
+@media (max-width: 680px) {
+  .fig-memit-cols,
+  .fig-split-cols {
+    grid-template-columns: 1fr;
+  }
+  .fig-memit-cols > .memit-ctl-col,
+  .fig-split-cols > .split-ctl-col {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fig-matrix-grid,
+  .fig-split {
+    grid-template-columns: 1fr;
+  }
+  .fig-matrix-grid > .matrix-pane,
+  .fig-split > .visual-pane,
+  .fig-split.fig-controls-in-visual > .visual-pane {
+    grid-column: 1;
+    grid-row: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+  .fig-matrix-grid > .ctl-pane,
+  .fig-split > .ctl-pane {
+    grid-column: 1;
+    grid-row: auto;
+    border-top: 1px solid var(--line);
+  }
+  .fig-matrix-grid > .stats-pane,
+  .fig-split > .stats-pane,
+  .fig-matrix-grid > .preview-pane,
+  .fig-split > .preview-pane,
+  .fig-split.fig-controls-in-visual > .stats-pane,
+  .fig-split.fig-controls-in-visual > .preview-pane {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+/* Step Scrubber Navigation */
+.stepper-bar {
+  display: flex;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 3px;
+  border-radius: 8px;
+  gap: 3px;
+  margin-bottom: 8px;
+}
+
+.stepper-step {
+  flex: 1;
+  font-size: 0.73rem;
+  padding: 4px 6px;
+  border: none;
+  background: transparent;
+  color: var(--mut);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.stepper-step:hover {
+  color: var(--fg);
+}
+
+.stepper-step.active {
+  background: #ffffff;
+  color: var(--fg);
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+
+.ctl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+  font-size: 0.9rem;
+  align-items: center;
+}
+
+.ctl label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--mut);
+}
+
+.ctl input[type=range] {
+  width: 130px;
+  accent-color: var(--fg);
+  cursor: pointer;
+}
+
+button.btn,
+.btn {
+  font: inherit;
+  font-size: 0.9rem;
+  border: 1px solid var(--fg);
+  background: var(--bg);
+  color: var(--fg);
+  border-radius: 8px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+button.btn:hover,
+.btn:hover {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+button.btn-active,
+.btn-active {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.stats {
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  color: var(--mut);
+  border-top: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+  background: var(--panel);
+}
+
+.stats b {
+  color: var(--fg);
+}
+
+.dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.note {
+  font-size: 0.85rem;
+  color: var(--mut);
+  margin: 8px 0 16px;
+  line-height: 1.5;
+}
+
+.try {
+  border-left: 3px solid var(--fg);
+  padding: 2px 0 2px 14px;
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  color: #333333;
+}
+
+.try ul {
+  margin: 4px 0 0;
+  padding-left: 18px;
+}
+
+.try li {
+  margin-bottom: 4px;
+}
+
+.refs {
+  font-size: 0.92rem;
+  color: #333333;
+  padding-left: 18px;
+}
+
+.refs li {
+  margin-bottom: 8px;
+}
+
+.refs span {
+  color: var(--mut);
+}
+
+/* Comparison preview bars */
+.bar-track {
+  height: 6px;
+  border-radius: 3px;
+  background: #e8e8e8;
+  overflow: hidden;
+  flex: 1;
+}
+
+.bar-fill-a {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--a);
+  transition: width 0.2s ease-out;
+}
+
+.bar-fill-b {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--b);
+  transition: width 0.2s ease-out;
+}
+
+/* KaTeX equations in blueprint style */
+.katex,
+.katex * {
+  color: var(--fg) !important;
+}
+
+.katex-display {
+  margin: 12px 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 0;
+}
+
+/* Dropdown and text inputs inherit font with 6px radius */
+select.ctl-select {
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  outline: none;
+}
+
+select.ctl-select:focus {
+  border-color: var(--fg);
+}
