@@ -28,6 +28,10 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+      - name: Inject navigation
+        run: |
+          curl -fsSL https://signalsubstrate.github.io/inject-nav.mjs -o /tmp/inject-nav.mjs
+          node /tmp/inject-nav.mjs --dir ./dist --home https://signalsubstrate.github.io/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
